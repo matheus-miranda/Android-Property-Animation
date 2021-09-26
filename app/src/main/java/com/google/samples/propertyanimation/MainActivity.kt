@@ -16,8 +16,12 @@
 
 package com.google.samples.propertyanimation
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.google.samples.propertyanimation.databinding.ActivityMainBinding
 
 
@@ -33,49 +37,62 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun insertListeners() {
-        /**
-        binding.apply {
 
-            rotateButton.setOnClickListener {
-                rotater()
-            }
-
-            translateButton.setOnClickListener {
-                translater()
-            }
-
-            scaleButton.setOnClickListener {
-                scaler()
-            }
-
-            fadeButton.setOnClickListener {
-                fader()
-            }
-
-            colorizeButton.setOnClickListener {
-                colorizer()
-            }
-
-            showerButton.setOnClickListener {
-                shower()
-            }
+        binding.rotateButton.setOnClickListener {
+            rotate()
         }
-        */
+
+        /**
+        binding.translateButton.setOnClickListener {
+        translate()
+        }
+
+        binding.scaleButton.setOnClickListener {
+        scale()
+        }
+
+        binding.fadeButton.setOnClickListener {
+        fade()
+        }
+
+        binding.colorizeButton.setOnClickListener {
+        colorize()
+        }
+
+        binding.showerButton.setOnClickListener {
+        shower()
+        }
+         */
     }
 
-    private fun rotater() {
+    private fun rotate() {
+        // Animation should end with the view being at its default state, hence starting at -360
+        val animator = ObjectAnimator.ofFloat(binding.star, View.ROTATION, -360f, 0f)
+        animator.duration = 2000 // default is 300ms
+
+        // Listener to disable and enable button while animation is running to prevent jank
+        animator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationStart(animation: Animator?) {
+                binding.rotateButton.isEnabled = false
+            }
+            override fun onAnimationEnd(animation: Animator?) {
+                binding.rotateButton.isEnabled = true
+            }
+        })
+
+        animator.start()
     }
 
-    private fun translater() {
+    private fun translate() {
     }
 
-    private fun scaler() {
+    private fun scale() {
     }
 
-    private fun fader() {
+    private fun fade() {
     }
 
-    private fun colorizer() {
+    private fun colorize() {
     }
 
     private fun shower() {
