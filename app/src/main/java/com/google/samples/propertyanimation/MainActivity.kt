@@ -19,6 +19,7 @@ package com.google.samples.propertyanimation
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -98,10 +99,34 @@ class MainActivity : AppCompatActivity() {
         animator.start()
     }
 
+    /**
+     * Must animate X and Y properties at the same time avoid skewing with PropertyValuesHolder
+     */
     private fun scale() {
+        // Default value is 1, so we are 4x'ing the star size
+        val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 4f)
+        val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 4f)
+
+        val animator = ObjectAnimator.ofPropertyValuesHolder(binding.star, scaleX, scaleY)
+        // Reverse the animation so it ends up back where it began
+        animator.repeatCount = 1
+        animator.repeatMode = ObjectAnimator.REVERSE
+
+        animator.disableViewDuringAnimation(binding.scaleButton)
+        animator.start()
     }
 
+    /**
+     * Utilize alpha to define fading effect
+     * 0 = transparent / 1 = opaque
+     */
     private fun fade() {
+        val animator = ObjectAnimator.ofFloat(binding.star, View.ALPHA, 0f)
+        animator.duration = 1000
+        animator.repeatCount = 1
+        animator.repeatMode = ObjectAnimator.REVERSE
+        animator.disableViewDuringAnimation(binding.fadeButton)
+        animator.start()
     }
 
     private fun colorize() {
