@@ -20,9 +20,11 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.google.samples.propertyanimation.databinding.ActivityMainBinding
 
 
@@ -129,7 +131,16 @@ class MainActivity : AppCompatActivity() {
         animator.start()
     }
 
+    @SuppressLint("ObjectAnimatorBinding")
     private fun colorize() {
+        // Target the FrameLayout that contains the star image view backgroundColor property name
+        val animator =
+            ObjectAnimator.ofArgb(binding.star.parent, "backgroundColor", Color.BLACK, Color.RED)
+        animator.duration = 1000
+        animator.repeatCount = 1
+        animator.repeatMode = ObjectAnimator.REVERSE
+        animator.disableViewDuringAnimation(binding.colorizeButton)
+        animator.start()
     }
 
     private fun shower() {
